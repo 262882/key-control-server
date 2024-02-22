@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8", "wheel"]
+
+[project]
+name = "package_statistics"
+dynamic = ["version"]
+description = ""
+dependencies = [
+    "fastapi",
+    "ruamel.yaml",
+    "PyAutoGUI",
+    "uvicorn[standard]",
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "coverage==7.4.1",
+    "mypy==1.8.0",
+    "ruff==0.2.0",
+    "tox==4.12.1",
+]
+
+[project.scripts]
+key_control_server = "key_control_server.main:main"
+
+[tool.setuptools_scm]
+
+[tool.ruff]
+src = ["src", "tests"]
+lint.ignore = [
+]
+line-length = 79
+lint.select = [
+    "E",    # pycodestyle
+    "F",    # pyflakes
+    "I",    # isort
+    "PL",   # Pylint
+]
+
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    env_list =
+        lint
+        type
+        py{39,310,311}
+        coverage
+
+    [testenv]  # settings common to all environments
+    allowlist_externals = coverage
+    depends =
+        coverage: py310
+    commands =
+        coverage run -m --source=key_control_server unittest discover tests/ "test_*.py"
+
+    [testenv:lint]
+    allowlist_externals = ruff
+    commands =
+        ruff .
+
+    [testenv:type]
+    allowlist_externals = mypy
+    commands =
+        mypy src tests
+
+    [testenv:coverage]
+    allowlist_externals = coverage
+    depends = py310
+    commands =
+        coverage report --data-file=./.coverage --fail-under=100 --skip-empty -m
+
+"""
