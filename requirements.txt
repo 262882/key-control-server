@@ -1,0 +1,4 @@
+fastapi
+ruamel.yaml
+PyAutoGUI
+uvicorn[standard]

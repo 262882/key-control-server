@@ -1,0 +1,5 @@
+allowed_keys:
+  - shift
+  - space
+  - F10
+  - k  # Play buttom in browser
