@@ -1,10 +1,9 @@
+import os
 from enum import Enum
 
 import pyautogui
 from fastapi import FastAPI
 from ruamel.yaml import YAML
-
-import os
 
 # Read allowed keys
 yaml = YAML()

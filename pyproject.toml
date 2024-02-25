@@ -7,8 +7,9 @@ dynamic = ["version"]
 description = ""
 dependencies = [
     "fastapi",
-    "ruamel.yaml",
     "PyAutoGUI",
+    "ruamel.yaml",
+    "typer",
     "uvicorn[standard]",
 ]
 requires-python = ">=3.8"
@@ -22,7 +23,7 @@ dev = [
 ]
 
 [project.scripts]
-key_control_server = "key_control_server.main:main"
+key_control_server = "key_control_server.main:app"
 
 [tool.setuptools_scm]
 
