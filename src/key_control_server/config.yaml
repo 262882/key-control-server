@@ -1,5 +1,5 @@
 allowed_keys:
-  - shift
-  - space
-  - F10
-  - k  # Play buttom in browser
+- shift
+- space
+- F10
+- k    # Play button in browser
