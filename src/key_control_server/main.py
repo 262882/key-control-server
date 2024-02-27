@@ -1,5 +1,3 @@
-import yaml
-
 import typer
 import uvicorn
 from ruamel.yaml import YAML

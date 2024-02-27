@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+  <ul>
+  {% for key, path in keys %}
+    <li>
+      <a href={{ path }} target="_blank">{{ key }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+</body>
+</html>

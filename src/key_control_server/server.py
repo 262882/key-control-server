@@ -1,11 +1,12 @@
 from enum import Enum
 
 import pyautogui
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from ruamel.yaml import YAML
 
-from key_control_server.globals import config_file
+from key_control_server.globals import config_file, templates_path
 
 # Read allowed keys
 yaml = YAML()
@@ -15,22 +16,25 @@ with open(config_file, "r") as stream:
 mapping = {key: key for key in read["allowed_keys"]}
 AvailKeys = Enum("AvailKeys", mapping)
 
+# Prepare template
+
+templates = Jinja2Templates(directory=templates_path)
+
+
 # Define endpoints
 app = FastAPI()
 
-@app.get("/")
-async def read_items():
-    html_content = """
-    <html>
-        <head>
-            <title>Some HTML in here</title>
-        </head>
-        <body>
-            <h1>Look ma! HTML!</h1>
-        </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content, status_code=200)
+
+@app.get("/", response_class=HTMLResponse)
+async def read_item(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="controls.html",
+        context={
+            "title": "Key-control-server",
+            "keys": [[key, f"/{key}"] for key in mapping.keys()],
+            }
+    )
 
 
 @app.get("/{key}")
