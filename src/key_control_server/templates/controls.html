@@ -8,9 +8,11 @@
   <h1>{{ title }}</h1>
   <ul>
   {% for key, path in keys %}
-    <li>
-      <a href={{ path }} target="_blank">{{ key }}</a>
-    </li>
+    <form action={{ path }} method="GET">
+      <div>
+        <button>{{ key }}</button>
+      </div>
+    </form>
   {% endfor %}
   </ul>
 </body>

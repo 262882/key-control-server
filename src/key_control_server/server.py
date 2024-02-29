@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 
 import pyautogui
@@ -40,4 +41,7 @@ async def read_item(request: Request):
 @app.get("/{key}")
 async def get_stroke(key: AvailKeys):
     pyautogui.keyDown(key.value)
-    return {"message": f"Pressed {key.value}!"}
+    return {
+        "message": f"Pressed {key.value}!",
+        "time": datetime.now(),
+        }
