@@ -18,7 +18,6 @@ mapping = {key: key for key in read["allowed_keys"]}
 AvailKeys = Enum("AvailKeys", mapping)
 
 # Prepare template
-
 templates = Jinja2Templates(directory=templates_path)
 
 
