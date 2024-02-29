@@ -1,3 +1,5 @@
+import os
+
 import typer
 import uvicorn
 from ruamel.yaml import YAML
@@ -12,12 +14,15 @@ app = typer.Typer()
 
 @app.command()
 def up(
+    password: str = typer.Option(default="keycontrol"),
     host: str = typer.Option(metavar="-h", default="0.0.0.0"),
     port: int = typer.Option(metavar="-p", default=80),
     ):
     """
     Start key control server
     """
+    os.environ["KEY_CONTROL_PASS"] = password
+
     uvicorn.run(
         "key_control_server.server:app",
         host=host,

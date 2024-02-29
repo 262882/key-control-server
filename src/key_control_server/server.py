@@ -1,9 +1,11 @@
+import os
 from datetime import datetime
 from enum import Enum
 
 import pyautogui
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.responses import HTMLResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.templating import Jinja2Templates
 from ruamel.yaml import YAML
 
@@ -21,9 +23,22 @@ AvailKeys = Enum("AvailKeys", mapping)
 templates = Jinja2Templates(directory=templates_path)
 
 
-# Define endpoints
-app = FastAPI()
+# Set security
+security = HTTPBasic()
 
+def get_current_username(
+        credentials: HTTPBasicCredentials = Depends(security)
+        ):
+    if credentials.password != os.environ["KEY_CONTROL_PASS"]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
+
+# Define endpoints
+app = FastAPI(dependencies=[Depends(get_current_username)])
 
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
